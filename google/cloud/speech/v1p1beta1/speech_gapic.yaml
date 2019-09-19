@@ -1,6 +1,5 @@
 type: com.google.api.codegen.ConfigProto
 config_schema_version: 1.0.0
-# The settings of generated code in a specific language.
 language_settings:
   java:
     package_name: com.google.cloud.speech.v1p1beta1
@@ -16,15 +15,8 @@ language_settings:
     package_name: Google\Cloud\Speech\V1p1beta1
   nodejs:
     package_name: speech.v1p1beta1
-# The configuration for the license header to put on generated files.
-license_header:
-  # The file containing the copyright line(s).
-  copyright_file: copyright-google.txt
-  # The file containing the raw license header without any copyright line(s).
-  license_file: license-header-apache-2.0.txt
-# A list of API interface configurations.
+    domain_layer_location: google-cloud
 interfaces:
-  # The fully qualified name of the API interface.
 - name: google.cloud.speech.v1p1beta1.Speech
   smoke_test:
     method: Recognize
@@ -34,15 +26,13 @@ interfaces:
     - config.encoding=FLAC
     - audio.uri="gs://gapic-toolkit/hello.flac"
   collections: []
-  # Definition for retryable codes.
   retry_codes_def:
   - name: idempotent
     retry_codes:
-    - UNAVAILABLE
     - DEADLINE_EXCEEDED
+    - UNAVAILABLE
   - name: non_idempotent
     retry_codes: []
-  # Definition for retry/backoff parameters.
   retry_params_def:
   - name: default
     initial_retry_delay_millis: 100
@@ -67,7 +57,6 @@ interfaces:
     - config.sample_rate_hertz=44100
     - config.language_code="en-US"
     - audio.uri=gs://bucket_name/file_name.flac
-    request_object_method: true
     retry_codes_name: idempotent
     retry_params_name: default
     timeout_millis: 1000000
@@ -85,7 +74,6 @@ interfaces:
     - config.sample_rate_hertz=44100
     - config.language_code="en-US"
     - audio.uri=gs://bucket_name/file_name.flac
-    request_object_method: true
     retry_codes_name: non_idempotent
     retry_params_name: default
     timeout_millis: 60000
@@ -97,7 +85,6 @@ interfaces:
       max_poll_delay_millis: 45000
       total_poll_timeout_millis: 86400000
   - name: StreamingRecognize
-    request_object_method: false
     retry_codes_name: idempotent
     retry_params_name: default
     timeout_millis: 1000000

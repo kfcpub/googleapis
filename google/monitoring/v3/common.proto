@@ -1,4 +1,4 @@
-// Copyright 2018 Google Inc.
+// Copyright 2019 Google LLC.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -11,12 +11,12 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
+//
 
 syntax = "proto3";
 
 package google.monitoring.v3;
 
-import "google/api/annotations.proto";
 import "google/api/distribution.proto";
 import "google/protobuf/duration.proto";
 import "google/protobuf/timestamp.proto";
@@ -27,7 +27,6 @@ option java_multiple_files = true;
 option java_outer_classname = "CommonProto";
 option java_package = "com.google.monitoring.v3";
 option php_namespace = "Google\\Cloud\\Monitoring\\V3";
-
 
 // A single strongly-typed value.
 message TypedValue {
@@ -52,9 +51,23 @@ message TypedValue {
   }
 }
 
-// A time interval extending just after a start time through an end time.
-// If the start time is the same as the end time, then the interval
-// represents a single point in time.
+// A closed time interval. It extends from the start time to the end time, and includes both: `[startTime, endTime]`. Valid time intervals depend on the [`MetricKind`](/monitoring/api/ref_v3/rest/v3/projects.metricDescriptors#MetricKind) of the metric value. In no case can the end time be earlier than the start time.
+//
+// * For a `GAUGE` metric, the `startTime` value is technically optional; if
+//   no value is specified, the start time defaults to the value of the
+//   end time, and the interval represents a single point in time. Such an
+//   interval is valid only for `GAUGE` metrics, which are point-in-time
+//   measurements.
+//
+// * For `DELTA` and `CUMULATIVE` metrics, the start time must be earlier
+//   than the end time.
+//
+// * In all cases, the start time of the next interval must be
+//   at least a microsecond after the end time of the previous interval.
+//   Because the interval is closed, if the start time of a new interval
+//   is the same as the end time of the previous interval, data written
+//   at the new start time could overwrite data written at the previous
+//   end time.
 message TimeInterval {
   // Required. The end of the time interval.
   google.protobuf.Timestamp end_time = 2;
@@ -391,10 +404,13 @@ enum ComparisonType {
   COMPARISON_NE = 6;
 }
 
-// The tier of service for a Stackdriver account. Please see the
-// [service tiers documentation](https://cloud.google.com/monitoring/accounts/tiers)
-// for more details.
+// The tier of service for a Workspace. Please see the
+// [service tiers
+// documentation](https://cloud.google.com/monitoring/workspaces/tiers) for more
+// details.
 enum ServiceTier {
+  option deprecated = true;
+
   // An invalid sentinel value, used to indicate that a tier has not
   // been provided explicitly.
   SERVICE_TIER_UNSPECIFIED = 0;
@@ -402,12 +418,14 @@ enum ServiceTier {
   // The Stackdriver Basic tier, a free tier of service that provides basic
   // features, a moderate allotment of logs, and access to built-in metrics.
   // A number of features are not available in this tier. For more details,
-  // see [the service tiers documentation](https://cloud.google.com/monitoring/accounts/tiers).
+  // see [the service tiers
+  // documentation](https://cloud.google.com/monitoring/workspaces/tiers).
   SERVICE_TIER_BASIC = 1;
 
   // The Stackdriver Premium tier, a higher, more expensive tier of service
   // that provides access to all Stackdriver features, lets you use Stackdriver
   // with AWS accounts, and has a larger allotments for logs and metrics. For
-  // more details, see [the service tiers documentation](https://cloud.google.com/monitoring/accounts/tiers).
+  // more details, see [the service tiers
+  // documentation](https://cloud.google.com/monitoring/workspaces/tiers).
   SERVICE_TIER_PREMIUM = 2;
 }

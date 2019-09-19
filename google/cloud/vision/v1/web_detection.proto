@@ -1,4 +1,4 @@
-// Copyright 2018 Google Inc.
+// Copyright 2019 Google LLC.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -11,6 +11,7 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
+//
 
 syntax = "proto3";
 
@@ -100,6 +101,7 @@ message WebDetection {
   // The visually similar image results.
   repeated WebImage visually_similar_images = 6;
 
-  // Best guess text labels for the request image.
+  // The service's best guess as to the topic of the request image.
+  // Inferred from similar images on the open web.
   repeated WebLabel best_guess_labels = 8;
 }
